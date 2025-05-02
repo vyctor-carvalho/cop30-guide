@@ -1,5 +1,5 @@
 import express from "express";
-import { AppDataSource } from "./db_config/data-source"
+import { AppDataSource } from "./db_config/AppDataSource"
 
 const app = express();
 

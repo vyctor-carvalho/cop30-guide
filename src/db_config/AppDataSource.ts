@@ -3,7 +3,7 @@ import { DataSource } from "typeorm"
 
 export const AppDataSource = new DataSource({
     type: "sqlite",
-    database: "./angel_visitor.sqlite",
+    database: "./src/db_config/angel_visitor.sqlite",
     synchronize: false,
     logging: false,
     entities: [__dirname + "/../models/*.ts"],

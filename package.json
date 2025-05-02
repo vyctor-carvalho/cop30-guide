@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "typeorm": "typeorm-ts-node-commonjs",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d src/db_config/AppDataSource.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node src/index.ts"
   },
