@@ -17,3 +17,6 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
 userRouter.put("/:id", async (req: Request, res: Response) => {
     userController.putUser(req, res)
 })
+userRouter.delete("/:id", async (req: Request, res: Response) => {
+    userController.deleteUser(req, res)
+})

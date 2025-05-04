@@ -14,4 +14,12 @@ export class UserDTO {
 
     role!: "angel" | "visitor";
 
+    public email() {
+        return this.userLoginDataDTO.email;
+    }
+
+    public password() {
+        return this.userLoginDataDTO.password;
+    }
+
 }

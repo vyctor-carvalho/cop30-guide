@@ -3,7 +3,6 @@ import { plainToInstance } from 'class-transformer';
 
 import { UserDTO } from "../DTO/UserDTO"
 import { UserService } from "../service/UserService"
-import { threadId } from 'worker_threads';
 
 export class UserController {
 
@@ -13,11 +12,14 @@ export class UserController {
         
         try{
             const userDTO = plainToInstance(UserDTO, req.body)
-            const user = await this.userService.createUser(userDTO);
+
+            await this.userService.createUser(userDTO);
+            
             return res.status(201).json({
                 mensage: "User created",
                 data: userDTO
             })
+        
         } catch ( errors: any ) {
             return res.status(errors.status || 500).json({
                 mensage: errors.mensage,
@@ -44,7 +46,7 @@ export class UserController {
 
         const id = req.params.id;
 
-        const user = await this.userService.getUserById(id);
+        const user = await this.userService.findUserById(id);
 
         if (user == null) {
             return res.status(404).json({
@@ -56,7 +58,7 @@ export class UserController {
         
     }
 
-    async putUser(req: Request, res: Response) {
+    async putUser(req: Request, res: Response): Promise<Response> {
         
         try {
             const id = req.params.id;

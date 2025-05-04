@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 
 import app from "./server";
-import { userRouter } from "./rotes/UserRotes"
+import { userRouter } from "./rotes/UserRotes";
+import { eventRoutes } from "./rotes/EventRoutes"
 
 const port = 3000
 
@@ -10,6 +11,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/users", userRouter);
+
+app.use("/events", eventRoutes);
 
 app.listen(port, () => {
     console.log(`Server rodadndo na porta ${port}, acesso http://localhost:3000/`);

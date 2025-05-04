@@ -8,21 +8,21 @@ import { User } from "./User";
 export class Event {
 
     @PrimaryGeneratedColumn("uuid")
-    private id!: string;
+    id!: string;
 
     @IsNotEmpty()
     @Column({ name: "title", type: "varchar", length: 30 })
-    title?: string;
+    title!: string;
 
     @Column({ name: "description", type: "varchar", length: 100, nullable: true })
-    description?: string;
+    description!: string;
 
     @Column(() => Location, { prefix: false })
-    location?: Location;
+    location!: Location;
 
     @ManyToOne(() => User, user => user.event)
     @JoinColumn({ name: "angel_id" })
-    angel?: User;
+    angel!: User;
 
     @OneToMany(() => Presence, presence => presence.event)
     presences?: Presence[];
