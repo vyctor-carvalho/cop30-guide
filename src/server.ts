@@ -1,13 +1,10 @@
 import express from "express";
+
 import { AppDataSource } from "./db_config/AppDataSource"
 
 const app = express();
 
 app.use(express.json());
-
-app.get("/", (req, res) => {
-    res.send("Home page");
-})
 
 AppDataSource.initialize()
     .then(() => {

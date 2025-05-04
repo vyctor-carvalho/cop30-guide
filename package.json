@@ -6,7 +6,7 @@
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d src/db_config/AppDataSource.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,12 +14,15 @@
   "type": "commonjs",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "express": "^5.1.0",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.22"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.3",
     "ts-node": "^10.9.2",

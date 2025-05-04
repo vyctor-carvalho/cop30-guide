@@ -1,14 +1,14 @@
 import { Column } from "typeorm";
-import { IsEmail, IsEmpty } from "class-validator"
+import { IsEmail, IsNotEmpty } from "class-validator"
 
 export class UserLoginData {
 
-    @IsEmpty()
+    @IsNotEmpty()
     @IsEmail()
     @Column({name: "email", type: "varchar", length: 50 })
     email?: string;
 
-    @IsEmpty()
+    @IsNotEmpty()
     @Column({ name: "password", type: "varchar", length: 100 })
     password?: string;
 

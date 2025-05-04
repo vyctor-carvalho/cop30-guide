@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import { IsEmpty } from "class-validator"
+import { IsNotEmpty } from "class-validator"
 import { Location } from "./wrappers/Location";
 import { Presence } from "./Presence";
 import { User } from "./User";
@@ -10,7 +10,7 @@ export class Event {
     @PrimaryGeneratedColumn("uuid")
     private id!: string;
 
-    @IsEmpty()
+    @IsNotEmpty()
     @Column({ name: "title", type: "varchar", length: 30 })
     title?: string;
 

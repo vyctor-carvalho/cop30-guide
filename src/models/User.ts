@@ -1,25 +1,24 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
-import { IsEmpty } from "class-validator"
+import { IsNotEmpty } from "class-validator"
 import { UserLoginData } from "./wrappers/UserLoginData"
 import { Presence } from "./Presence";
 import { Event } from "./Event"
  
 
 @Entity("user")
-export class User{
+export class User {
 
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
-    @IsEmpty()
+    @IsNotEmpty()
     @Column({name: "name", type: "varchar", length: 50 })
     name!: string;
 
     @Column(() => UserLoginData, { prefix: false })
-    userLogindata!: UserLoginData;
+    userLoginData!: UserLoginData;
 
-    @IsEmpty()
-    @Column({ name: "role", type: "varchar", length: 8 })
+    @Column({ name: "role", type: "varchar", length: 8, default: "visitor" })
     role!: "admin" | "angel" | "visitor";
 
     @OneToMany(() => Event, event => event.angel)
