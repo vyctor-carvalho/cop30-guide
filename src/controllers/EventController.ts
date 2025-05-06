@@ -3,7 +3,6 @@ import { plainToInstance } from "class-transformer";
 
 import { EventService } from "../service/EventService";
 import { EventDTO } from "../DTO/EventDTO"
-import { promises } from "dns";
 
 export class EventController {
 
@@ -66,11 +65,14 @@ export class EventController {
 
             const eventDTO = req.body;
 
-            const event = this.eventService.putEvent(id, eventDTO);
+            const event = await this.eventService.putEvent(id, eventDTO);
+
+            console.log(event);
+            console.log(typeof(event));
     
-            if (event == null) {
+            if (typeof event === "string" ) {
                 return res.status(404).json({
-                    mensage: `Event whith id ${id} not found`
+                    mensage: `${event}`
                 })
             }
 

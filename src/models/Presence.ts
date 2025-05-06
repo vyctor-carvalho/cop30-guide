@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "./User";
 import { Event } from "./Event"
+import { IsDateString, IsNotEmpty } from "class-validator";
 
 
 @Entity("presence")
@@ -22,6 +23,5 @@ export class Presence {
 
     @Column({ name: "date_present", type: "datetime", default: () => "CURRENT_TIMESTAMP" })
     datePresent!: Date;
-
 
 }

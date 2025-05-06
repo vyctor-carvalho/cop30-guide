@@ -1,11 +1,9 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsOptional, ValidateNested } from "class-validator";
+import { IsNotEmpty, IsOptional, IsUUID, ValidateNested } from "class-validator";
 
 import { LocationDTO } from "../DTO/LocationDTO"
 
 export class EventDTO {
-
-    id!: string;
 
     @IsNotEmpty()
     title!: string;
@@ -19,6 +17,7 @@ export class EventDTO {
     locationDTO!: LocationDTO;
 
     @IsNotEmpty()
+    @IsUUID()
     idAngel!: string;
 
     public postalCode() {

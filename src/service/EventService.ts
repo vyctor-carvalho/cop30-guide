@@ -48,25 +48,21 @@ export class EventService {
     }
 
     async findEventById(id: string): Promise<Event | null> {
-
-        const event = await this.eventRepository.findOneBy({ id })
-        
-        if (!event) return null;
-
+        const event = await this.eventRepository.findOneBy({ id });
         return event
     }
 
-    async putEvent(id: string, eventDTO: EventDTO): Promise<Event | { errors: any[] } | null> {
+    async putEvent(id: string, eventDTO: EventDTO): Promise<Event | { errors: any[] } | string> {
 
         const event = await this.eventRepository.findOneBy({ id })
-        if (!event) return null;
+        if (!event) return `Event whith id ${id} not found`;
 
         const error = await validate(eventDTO, { whitelist: true, forbidNonWhitelisted: true });
         const nastedErrors = await validate(eventDTO.locationDTO);
 
         const angel = await this.userService.findUserById(eventDTO.idAngel);
 
-        if (angel == null) return null;
+        if (angel == null) return `User whith id ${eventDTO.idAngel} not found`;
 
         if (error.length > 0 || nastedErrors.length > 0) {
             return { errors: [ ...error, ...nastedErrors ] }
