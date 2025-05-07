@@ -27,4 +27,8 @@ export class User {
     @OneToMany(() => Presence, presence => presence.visitor)
     presences?: Presence[];
 
+    public password() {
+        return this.userLoginData.password;
+    }
+
 }

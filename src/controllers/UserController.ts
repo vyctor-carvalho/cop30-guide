@@ -13,11 +13,11 @@ export class UserController {
         try{
             const userDTO = plainToInstance(UserDTO, req.body)
 
-            await this.userService.createUser(userDTO);
+            const newUser = await this.userService.createUser(userDTO);
             
             return res.status(201).json({
                 mensage: "User created",
-                data: userDTO
+                data: newUser
             })
         
         } catch ( errors: any ) {

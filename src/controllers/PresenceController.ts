@@ -2,10 +2,13 @@ import { Request, Response } from "express";
 import { plainToInstance } from "class-transformer";
 import { PresenceDTO } from "../DTO/PresenceDTO";
 import { PresenceService } from "../service/PresenceService";
+import { EventService } from "../service/EventService"
 
 export class PresenceController {
 
     private presenceService = new PresenceService();
+
+    private eventService = new EventService();
 
     async createPresence(req: Request, res: Response): Promise<Response> {
         try {
@@ -51,6 +54,21 @@ export class PresenceController {
 
         if (!presence) {
             return res.status(404).json({ message: `Presence with id ${id} not found` });
+        }
+
+        return res.status(200).json(presence);
+    }
+
+    async getPresenceByEvent(req: Request, res: Response): Promise<Response> {
+
+        const event_id = req.params.id;
+
+        const presence = await this.presenceService.findPresenceByEvent(event_id);
+
+        if (presence == null) {
+            return res.status(404).json({
+                mensage: `Event whith id ${event_id} not found`
+            })
         }
 
         return res.status(200).json(presence);

@@ -30,7 +30,6 @@ export class EventController {
     }
 
     async getEvents(req: Request, res: Response): Promise<Response> {
-
         const events = await this.eventService.findAllEvents();
 
         if (events.length == 0) {

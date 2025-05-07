@@ -5,7 +5,7 @@ export class UserLoginData {
 
     @IsNotEmpty()
     @IsEmail()
-    @Column({name: "email", type: "varchar", length: 50 })
+    @Column({name: "email", type: "varchar", length: 50, unique: true })
     email!: string;
 
     @IsNotEmpty()

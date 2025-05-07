@@ -18,12 +18,14 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "express": "^5.1.0",
+    "jsonwebtoken": "^8.5.1",
     "sqlite3": "^5.1.7",
     "typeorm": "^0.3.22"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.3",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",

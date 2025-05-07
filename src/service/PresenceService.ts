@@ -92,4 +92,14 @@ export class PresenceService {
 
     }
 
+    async findPresenceByEvent(event_id: string): Promise<Presence | Presence[] | null> {
+
+        const event = await this.eventService.findEventById(event_id);
+
+        if (event == null) return null;
+
+        return await this.presenceRepository.findOneBy({ event });
+
+    }
+
 }
