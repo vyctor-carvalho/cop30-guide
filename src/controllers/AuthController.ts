@@ -15,11 +15,15 @@ export class AuthController {
 
         const user = await this.userService.findByEmail(email);
 
-        if (user == null) return res.status(401).json({ error: 'Credenciais inválidas' });
+        if (user == null) return res.status(401).json({ 
+            error: "Invalid email"
+        });
 
         const machPassword = await bcrypt.compare(password, user.password());
 
-        if (!machPassword) return res.status(401).json({ error: 'Credenciais inválidas' });
+        if (!machPassword) return res.status(401).json({
+            error: "Invalid password"
+        });
 
         const token = jwt.sign(
             {
@@ -30,7 +34,7 @@ export class AuthController {
         )
 
         return res.json({
-            message: 'Login realizado com sucesso',
+            message: "Login successfully",
             token
         });
     }

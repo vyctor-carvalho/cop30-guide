@@ -92,13 +92,7 @@ export class UserController {
         try {
             const id = req.params.id;
 
-            const isDeleted = this.userService.deleteUser(id)
-    
-            if (!isDeleted) {
-                return res.status(404).json({
-                    mensage: `User whith id ${id} not found`
-                })
-            }
+            await this.userService.deleteUser(id)
     
             return res.status(200).json({
                 mensage: "User deleted"

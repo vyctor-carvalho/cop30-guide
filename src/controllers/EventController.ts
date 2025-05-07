@@ -13,11 +13,11 @@ export class EventController {
         try {
             const eventDTO = plainToInstance(EventDTO, req.body);
 
-            await this.eventService.createEvent(eventDTO)
+            const event = await this.eventService.createEvent(eventDTO);
 
             return res.status(201).json({
                 mensage: "Event created",
-                data: eventDTO
+                data: event
             })
 
         } catch (errors: any) {
@@ -31,6 +31,8 @@ export class EventController {
 
     async getEvents(req: Request, res: Response): Promise<Response> {
         const events = await this.eventService.findAllEvents();
+
+        console.log(events)
 
         if (events.length == 0) {
             return res.status(200).json({
@@ -47,7 +49,7 @@ export class EventController {
 
         const event = await this.eventService.findEventById(id);
 
-        if (event == null) {
+        if (!event) {
             return res.status(404).json({
                 mensage: `Event whith id ${id} not found`
             })
@@ -62,18 +64,9 @@ export class EventController {
         try {
             const id = req.params.id;
 
-            const eventDTO = req.body;
+            const eventDTO = plainToInstance(EventDTO, req.body);
 
             const event = await this.eventService.putEvent(id, eventDTO);
-
-            console.log(event);
-            console.log(typeof(event));
-    
-            if (typeof event === "string" ) {
-                return res.status(404).json({
-                    mensage: `${event}`
-                })
-            }
 
             return res.status(200).json({
                 mensage: "Event updated",
@@ -94,13 +87,7 @@ export class EventController {
         try {
             const id = req.params.id;
 
-            const isDeleted = this.eventService.deleteEvent(id)
-
-            if (!isDeleted) {
-                return res.status(404).json({
-                    mensage: `Event whith id ${id} not found`
-                })
-            }
+            await this.eventService.deleteEvent(id)
 
             return res.status(200).json({
                 mensage: "Event deleted"

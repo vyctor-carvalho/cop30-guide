@@ -18,7 +18,10 @@ export class UserService {
         const nestedErrors = await validate(userDTO.userLoginDataDTO);
 
         if (errors.length > 0 || nestedErrors.length > 0) {
-            return { errors: [ ...errors, ...nestedErrors] }
+            throw { 
+                status: 400,
+                mensage: "Invali json"
+            }
         }
 
         const newUser = this.userRepository.create({
@@ -45,18 +48,36 @@ export class UserService {
         return user;
     }
 
+    async findByEmail(email: string): Promise<User | null> {
+
+        return await this.userRepository.findOneBy({
+            userLoginData: {
+                email: email
+            }
+        })
+
+    }
+
     async putUser(id: string, userDTO: UserDTO): Promise<User | { errors: any[] } | null > {
-
-        const user = await this.userRepository.findOneBy({ id });
-
-        if (!user) return null;
 
         const error = await validate(userDTO, { whitelist: true, forbidNonWhitelisted: true });
         const nestedErrors = await validate(userDTO.userLoginDataDTO);
         
         if (error.length > 0 || nestedErrors.length > 0) {
-            return { errors: [ ...error, ...nestedErrors ] }
+            throw { 
+                status: 400,
+                mensage: "Invali json"
+            }
         }
+
+        const user = await this.userRepository.findOneBy({ id });
+
+        if (!user) {
+            throw { 
+                status: 404,
+                mensage: `User whith id ${id} not found` 
+            }
+        };
 
         user.name = userDTO.name;
         user.role = userDTO.role;
@@ -67,25 +88,18 @@ export class UserService {
 
     }
 
-    async deleteUser(id: string): Promise<boolean> {
+    async deleteUser(id: string) {
 
         const user = await this.userRepository.findOneBy({ id })
 
-        if (!user) return false;
-
-        this.userRepository.delete(user)
-
-        return true;
-
-    }
-
-    async findByEmail(email: string): Promise<User | null> {
-
-        return await this.userRepository.findOneBy({
-            userLoginData: {
-                email: email
+        if (user == null) {
+            throw { 
+                status: 404,
+                mensage: `User whith id ${id} not found` 
             }
-        })
+        };
+
+        await this.userRepository.delete(id)
 
     }
 

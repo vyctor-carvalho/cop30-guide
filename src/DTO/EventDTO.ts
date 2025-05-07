@@ -14,22 +14,22 @@ export class EventDTO {
     @IsNotEmpty()
     @ValidateNested()
     @Type(() => LocationDTO)
-    locationDTO!: LocationDTO;
+    location!: LocationDTO;
 
     @IsNotEmpty()
     @IsUUID()
     idAngel!: string;
 
     public postalCode() {
-        return this.locationDTO.postalCode;
+        return this.location.postalCode;
     }
 
     public numberHouse() {
-        return this.locationDTO.numberHouse;
+        return this.location.numberHouse;
     }
 
     public complement() {
-        return this.locationDTO.complement;
+        return this.location.complement;
     }
 
 }
