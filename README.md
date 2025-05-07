@@ -68,7 +68,7 @@ VALUES (
   "name": "Jorge Silas",
   "userLoginDataDTO": {
     "email": "jjjjamison@example.com",
-    "password": "senhaSegura123"
+    "password": "senha123"
   },
   "role": "visitor"
 }
