@@ -1,12 +1,10 @@
-
-
-# 🌍 Angel Visitor API
+#  Angel Visitor API
 
 API RESTful desenvolvida com **Node.js**, **TypeScript**, **Express**, **SQLite** e **TypeORM**, com foco no gerenciamento de **eventos** e **presenças** durante a **COP-30** em Belém. A aplicação permite a interação de diferentes tipos de usuários — `admin`, `angel` e `visitor` — com funcionalidades específicas para cada papel.
 
 ---
 
-## ⚙️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - Node.js
 - Express
@@ -19,7 +17,7 @@ API RESTful desenvolvida com **Node.js**, **TypeScript**, **Express**, **SQLite*
 
 ---
 
-## 🚀 Como Rodar o Projeto
+## Como Rodar o Projeto
 
 1. **Clone o repositório**:
    ```bash
@@ -29,7 +27,6 @@ API RESTful desenvolvida com **Node.js**, **TypeScript**, **Express**, **SQLite*
 
 
 2. **Instale as dependências**:
-
    ```bash
    npm install
    ```
@@ -49,7 +46,7 @@ API RESTful desenvolvida com **Node.js**, **TypeScript**, **Express**, **SQLite*
 
 ---
 
-## 👮‍♂️ Usuário Admin
+## Usuário Admin
 
 Para facilitar testes, você pode inserir manualmente um admin no banco de dados com o seguinte comando SQL:
 
@@ -64,66 +61,67 @@ VALUES (
 );
 ```
 
-Login:
+## Login
 
-```json
-POST /login
-{
-  "email": "admin@system.com",
-  "password": "senhaSegura123"
-}
-```
 
----
-
-## 🧑 Criar Usuário
-
-```json
-POST /users
-{
-  "name": "Jorge Silas",
-  "userLoginDataDTO": {
-    "email": "jjjjamison@example.com",
-    "password": "senha123"
-  },
-  "role": "visitor"
-}
-```
+- POST /login
+  ```json
+  {
+    "email": "admin@system.com",
+    "password": "senhaSegura123"
+  }
+  ```
 
 ---
 
-## 📅 Criar Evento
+## Criar Usuário
 
-```json
-POST /events
-{
-  "title": "Visita COP",
-  "description": "Evento para visitantes",
-  "location": {
-    "postalCode": "66000000",
-    "numberHouse": "123",
-    "complement": "Apto 3B"
-  },
-  "idAngel": "a3f1c2b8-4d6e-4baf-9e4a-8d62c9ef1b22"
-}
-```
+- POST /users
+  ```json
+  {
+    "name": "Jorge Silas",
+    "userLoginDataDTO": {
+      "email": "jjjjamison@example.com",
+      "password": "senha123"
+    },
+    "role": "visitor"
+  }
+  ```
 
 ---
 
-## ✅ Registrar Presença
+## Criar Evento
 
-```json
-POST /presence
-{
-  "visitorId": "a3f1c2b8-4d6e-4baf-9e4a-8d62c9ef1b22",
-  "eventId": "7854eb92-ad5f-4bc5-8a42-71497e0dd608",
-  "present": true
-}
-```
+- POST /events
+  ```json
+  {
+    "title": "Visita COP",
+    "description": "Evento para visitantes",
+    "location": {
+      "postalCode": "66000000",
+      "numberHouse": "123",
+      "complement": "Apto 3B"
+    },
+    "idAngel": "a3f1c2b8-4d6e-4baf-9e4a-8d62c9ef1b22"
+  }
+  ```
 
 ---
 
-## 📁 Endpoints Disponíveis
+## Registrar Presença
+
+- POST /presence
+  ```json
+  {
+    "visitorId": "a3f1c2b8-4d6e-4baf-9e4a-8d62c9ef1b22",
+    "eventId": "7854eb92-ad5f-4bc5-8a42-71497e0dd608",
+    "present": true
+  }
+  ```
+
+---
+
+## Endpoints Disponíveis
 
 | Método | Rota        | Descrição                          | Acesso        |
 | ------ | ----------- | ---------------------------------- | ------------- |
@@ -133,10 +131,11 @@ POST /presence
 | GET    | `/events`   | Listar eventos (por função)        | Autenticado   |
 | POST   | `/events`   | Criar novo evento (admin ou angel) | Admin/Angel   |
 | POST   | `/presence` | Registrar presença em evento       | Angel/Visitor |
+| GET   | `/presence/event/:id` | Lista as presencas de um evento       | Autenticado |
 
 ---
 
-## ❗ Tratamento de Erros
+## Tratamento de Erros
 
 Todos os erros são tratados de forma centralizada por middleware:
 
@@ -148,7 +147,7 @@ As respostas seguem um padrão de mensagens claras com status apropriado.
 
 ---
 
-## 🔒 Autenticação e Autorização
+## Autenticação e Autorização
 
 * Autenticação via **JWT**
 * Proteção de rotas por **papel** do usuário (`admin`, `angel`, `visitor`)
@@ -156,7 +155,7 @@ As respostas seguem um padrão de mensagens claras com status apropriado.
 
 ---
 
-## 📌 Observações
+## Observações
 
 * Os IDs de usuários e eventos seguem o padrão **UUID v4**
 * Papéis disponíveis:
@@ -167,7 +166,8 @@ As respostas seguem um padrão de mensagens claras com status apropriado.
 
 ---
 
-## 🧑‍💻 Autor
+
+## Autor
 
 Desenvolvido por Vyctor
 📧 \[[vkvyctor180@gmail.com](mailto:vkvyctor180@gmail.com)]
