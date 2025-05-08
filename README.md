@@ -1,41 +1,57 @@
-# Angel Visitor API
 
-API construída com **Node.js**, **TypeScript**, **Express**, **TypeORM** e **SQLite**, voltada para o gerenciamento de eventos e presenças no contexto da COP-30 em Belém. O sistema permite que usuários com diferentes papéis (admin, angel e visitor) interajam com eventos e registrem presenças.
 
-## 📦 Tecnologias Utilizadas
+# 🌍 Angel Visitor API
+
+API RESTful desenvolvida com **Node.js**, **TypeScript**, **Express**, **SQLite** e **TypeORM**, com foco no gerenciamento de **eventos** e **presenças** durante a **COP-30** em Belém. A aplicação permite a interação de diferentes tipos de usuários — `admin`, `angel` e `visitor` — com funcionalidades específicas para cada papel.
+
+---
+
+## ⚙️ Tecnologias Utilizadas
 
 - Node.js
 - Express
+- TypeScript
 - TypeORM
 - SQLite
-- TypeScript
 - Bcrypt
 - JWT
 - Class-validator
 
 ---
 
-## 🚀 Como rodar o projeto
+## 🚀 Como Rodar o Projeto
 
-1. Instale as dependências:
-```bash
-npm install
-```
-
-2. Configure o banco de dados em `data-source.ts`.
-
-3. Inicie a aplicação:
+1. **Clone o repositório**:
+   ```bash
+   git clone https://github.com/vyctor-carvalho/cop30-guide.git
+   cd angel-visitor-api
+   ```
 
 
-```bash
-npm run dev
-```
+2. **Instale as dependências**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Configure o banco de dados** em `src/data-source.ts` conforme necessário.
+
+4. **Rode as migrações**:
+    ```bash
+    npm run migration:run
+    ```
+
+5. **Inicie a aplicação**:
+
+   ```bash
+   npm run dev
+   ```
 
 ---
 
 ## 👮‍♂️ Usuário Admin
 
-### Inserir usuário admin manualmente no banco:
+Para facilitar testes, você pode inserir manualmente um admin no banco de dados com o seguinte comando SQL:
 
 ```sql
 INSERT INTO user (id, name, role, email, password)
@@ -48,9 +64,10 @@ VALUES (
 );
 ```
 
-### Login:
+Login:
 
 ```json
+POST /login
 {
   "email": "admin@system.com",
   "password": "senhaSegura123"
@@ -59,11 +76,10 @@ VALUES (
 
 ---
 
-## 👤 Criar Usuário
-
-### POST `/users`
+## 🧑 Criar Usuário
 
 ```json
+POST /users
 {
   "name": "Jorge Silas",
   "userLoginDataDTO": {
@@ -78,9 +94,8 @@ VALUES (
 
 ## 📅 Criar Evento
 
-### POST `/events`
-
 ```json
+POST /events
 {
   "title": "Visita COP",
   "description": "Evento para visitantes",
@@ -97,9 +112,8 @@ VALUES (
 
 ## ✅ Registrar Presença
 
-### POST `/presence`
-
 ```json
+POST /presence
 {
   "visitorId": "a3f1c2b8-4d6e-4baf-9e4a-8d62c9ef1b22",
   "eventId": "7854eb92-ad5f-4bc5-8a42-71497e0dd608",
@@ -109,36 +123,54 @@ VALUES (
 
 ---
 
-## 📁 Estrutura das Rotas
+## 📁 Endpoints Disponíveis
 
-* `GET /` - Página inicial
-* `POST /login` - Login de usuário
-* `POST /users` - Criar novo usuário
-* `GET /events` - Listar eventos (restrito por role)
-* `POST /events` - Criar evento (admin/angel)
-* `POST /presence` - Registrar presença em um evento (restrito por role)
+| Método | Rota        | Descrição                          | Acesso        |
+| ------ | ----------- | ---------------------------------- | ------------- |
+| GET    | `/`         | Página inicial                     | Público       |
+| POST   | `/login`    | Autenticação de usuário            | Público       |
+| POST   | `/users`    | Criação de novo usuário            | Público       |
+| GET    | `/events`   | Listar eventos (por função)        | Autenticado   |
+| POST   | `/events`   | Criar novo evento (admin ou angel) | Admin/Angel   |
+| POST   | `/presence` | Registrar presença em evento       | Angel/Visitor |
 
 ---
 
 ## ❗ Tratamento de Erros
 
-Todos os erros são tratados de forma centralizada via middleware, retornando mensagens claras em caso de:
+Todos os erros são tratados de forma centralizada por middleware:
 
-* Falhas de validação
-* Acesso não autorizado
-* Erros internos no servidor
+* Erros de validação
+* Falta de autenticação ou autorização
+* Erros internos do servidor
+
+As respostas seguem um padrão de mensagens claras com status apropriado.
+
+---
+
+## 🔒 Autenticação e Autorização
+
+* Autenticação via **JWT**
+* Proteção de rotas por **papel** do usuário (`admin`, `angel`, `visitor`)
+* Tokens devem ser enviados no header `Authorization: Bearer <token>`
 
 ---
 
 ## 📌 Observações
 
-* O ID do usuário e do evento devem estar em formato UUID.
-* Os papéis permitidos são: `admin`, `angel`, `visitor`.
-* O sistema utiliza autenticação via JWT para proteger as rotas.
+* Os IDs de usuários e eventos seguem o padrão **UUID v4**
+* Papéis disponíveis:
+
+  * `admin`: gerencia o sistema
+  * `angel`: guia até 3 visitantes e cria eventos
+  * `visitor`: participa de eventos e confirma presença
 
 ---
 
-## 🔗 Autor
+## 🧑‍💻 Autor
 
 Desenvolvido por Vyctor
+📧 \[[vkvyctor180@gmail.com](mailto:vkvyctor180@gmail.com)]
+🔗 GitHub: [https://github.com/vyctor-carvalho/](https://github.com/vyctor-carvalho/)
+
 
