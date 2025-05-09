@@ -61,12 +61,18 @@ export class PresenceService {
         return this.presenceRepository.find();
     }
 
-    async findUPresenceById(id: string): Promise<Presence | null> {
-        const presence = await this.presenceRepository.findOneBy({ id });
+    async findUPresenceByFKs(userId: string, eventId: string): Promise<Presence | null> {
+        const presence = await this.presenceRepository.findOne({ 
+            where: {
+                visitor: {id: userId},
+                event: {id: eventId}
+            },
+            relations: ["visitor", "event"]
+        });
         return presence;
     } 
 
-    async findPresenceByEvent(event_id: string): Promise<Presence | Presence[] | null> {
+    async findPresenceByEvent(event_id: string): Promise<Presence[] | null> {
 
         const event = await this.eventService.findEventById(event_id);
 
@@ -77,11 +83,14 @@ export class PresenceService {
             }
         };
 
-        return await this.presenceRepository.findOneBy({ event });
+        return await this.presenceRepository.find({ 
+            where: { event },
+            relations: ["event", "visitor"]
+         });
 
     }
 
-    async putPresence(id: string, presenceDTO: PresenceDTO): Promise<Presence | { errors: any[] }> {
+    async putPresence(presenceDTO: PresenceDTO): Promise<Presence | { errors: any[] }> {
 
         const error = await validate(presenceDTO, { whitelist: true, forbidNonWhitelisted: true });
 
@@ -94,23 +103,14 @@ export class PresenceService {
 
         const user = await this.userService.findUserById(presenceDTO.visitorId);
 
-        const event = await this.eventService.findEventById(presenceDTO.eventId);
-
-        const presence = await this.presenceRepository.findOneBy({ id });
-
-        if (!presence) {
-            throw { 
-                status: 404,
-                mensage: `Presence whith id ${id} not found`
-            }
-        };
-
         if (!user) {
             throw { 
                 status: 404,
                 mensage: `User whith id ${presenceDTO.visitorId} not found`
             }
         };
+
+        const event = await this.eventService.findEventById(presenceDTO.eventId);
 
         if (!event) {
             throw { 
@@ -119,25 +119,41 @@ export class PresenceService {
             }
         };
 
-        presence.present = presenceDTO.present;
-        presence.visitor = user;
-        presence.event = event;
+        const userId = user.id;
+        const eventId = event.id;
 
-        return presence;
-    }
-
-    async deletePresence(id: string) {
-
-        const presence = await this.presenceRepository.findOneBy({ id });
+        const presence = await this.presenceRepository.findOneBy({
+            userId,
+            eventId
+        });
 
         if (!presence) {
             throw { 
                 status: 404,
-                mensage: `Presence whith id ${id} not found`
+                mensage: `Presence not found or not exites`
+            }
+        }
+
+        presence.present = presenceDTO.present;
+
+        return presence;
+    }
+
+    async deletePresence(userId: string, eventId: string) {
+
+        const presence = await this.presenceRepository.findOneBy({ 
+            userId,
+            eventId
+         });
+
+        if (!presence) {
+            throw { 
+                status: 404,
+                mensage: `Presence not found ou not existe`
             }
         };
 
-        await this.presenceRepository.delete(id);
+        await this.presenceRepository.delete({ userId, eventId });
 
     }
 

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 
 import { UserService } from "../service/UserService";
-import { JWT_EXPIRES_IN, JWT_SECRET } from "../server";
+import { JWT_SECRET } from "../confg/ExpoEnv";
 
 export class AuthController {
 

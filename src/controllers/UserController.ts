@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
+import { validate as validateUUID } from "uuid";
 import { plainToInstance } from 'class-transformer';
 
-import { UserDTO } from "../DTO/UserDTO"
-import { UserService } from "../service/UserService"
+import { UserDTO } from "../DTO/UserDTO";
+import { UserService } from "../service/UserService";
 
 export class UserController {
 
@@ -46,6 +47,12 @@ export class UserController {
 
         const id = req.params.id;
 
+        if (!validateUUID(id)) {
+            return res.status(400).json({
+                message: "Invalid UUID format"
+            })
+        }
+
         const user = await this.userService.findUserById(id);
 
         if (user == null) {
@@ -62,6 +69,12 @@ export class UserController {
         
         try {
             const id = req.params.id;
+
+            if (!validateUUID(id)) {
+                return res.status(400).json({
+                    message: "Invalid UUID format"
+                })
+            }
 
             const userDTO = plainToInstance(UserDTO, req.body);
     
@@ -91,6 +104,12 @@ export class UserController {
 
         try {
             const id = req.params.id;
+
+            if (!validateUUID(id)) {
+                return res.status(400).json({
+                    message: "Invalid UUID format"
+                })
+            }
 
             await this.userService.deleteUser(id)
     

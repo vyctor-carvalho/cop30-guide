@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
+import { validate as validateUUID } from "uuid";
 import { plainToInstance } from "class-transformer";
+
 import { PresenceDTO } from "../DTO/PresenceDTO";
+import { PresenceFKs } from "../DTO/wrappersDTO/PresenceFKs"
 import { PresenceService } from "../service/PresenceService";
 
 export class PresenceController {
@@ -38,14 +41,14 @@ export class PresenceController {
         return res.status(200).json(presences);
     }
 
-    async getPresenceById(req: Request, res: Response): Promise<Response> {
-        const id = req.params.id;
+    async getPresenceByFKs(req: Request, res: Response): Promise<Response> {
+        const presenceFKs = plainToInstance(PresenceFKs, req.body);
 
-        const presence = await this.presenceService.findUPresenceById(id);
+        const presence = await this.presenceService.findUPresenceByFKs(presenceFKs.userId, presenceFKs.eventId);
 
         if (!presence) {
             return res.status(404).json({ 
-                message: `Presence with id ${id} not found` 
+                message: `Presence with this FKs not found` 
             });
         }
 
@@ -56,6 +59,12 @@ export class PresenceController {
 
         const event_id = req.params.id;
 
+        if (!validateUUID(event_id)) {
+            return res.status(400).json({
+                message: "Invalid UUID format"
+            })
+        }
+
         const presence = await this.presenceService.findPresenceByEvent(event_id);
 
         if (presence == null) {
@@ -64,16 +73,20 @@ export class PresenceController {
             })
         }
 
-        return res.status(200).json(presence);
+        return res.status(200).json(
+        presence.map(p => ({
+            eventTitle: p.event.title,
+            visitorName: p.visitor.name,
+            presence: p.present
+        })));
     }
 
     async putPresence(req: Request, res: Response): Promise<Response> {
         try {
-            const id = req.params.id;
 
             const presenceDTO = plainToInstance(PresenceDTO, req.body);
 
-            const presence = await this.presenceService.putPresence(id, presenceDTO);
+            const presence = await this.presenceService.putPresence(presenceDTO);
 
             return res.status(200).json({
                 message: "Presence updated",
@@ -90,9 +103,9 @@ export class PresenceController {
 
     async deletePresence(req: Request, res: Response): Promise<Response> {
         try {
-            const id = req.params.id;
+            const presenceFKs = plainToInstance(PresenceFKs, req.body);
 
-            await this.presenceService.deletePresence(id);
+            await this.presenceService.deletePresence(presenceFKs.userId, presenceFKs.eventId);
 
             return res.status(200).json({ 
                 message: "Presence deleted" 

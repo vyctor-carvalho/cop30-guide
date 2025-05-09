@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-import { JWT_SECRET } from "../server";
+import { JWT_SECRET } from "../confg/ExpoEnv";
 
 export interface AuthenticatedRequest extends Request{
     user?: any

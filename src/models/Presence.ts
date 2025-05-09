@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
 import { User } from "./User";
 import { Event } from "./Event"
 import { IsDateString, IsNotEmpty } from "class-validator";
@@ -7,9 +7,12 @@ import { IsDateString, IsNotEmpty } from "class-validator";
 @Entity("presence")
 export class Presence {
 
-    @PrimaryGeneratedColumn("uuid")
-    id!: string;
-
+    @PrimaryColumn("uuid", { name: "user_id" })
+    userId!: string;
+  
+    @PrimaryColumn("uuid", { name: "event_id" })
+    eventId!: string;
+  
     @ManyToOne(() => User, user => user.presences)
     @JoinColumn({ name: "user_id" })
     visitor!: User;
@@ -21,7 +24,11 @@ export class Presence {
     @Column({ name: "present", default: false })
     present!: boolean;
 
-    @Column({ name: "date_present", type: "datetime", default: () => "CURRENT_TIMESTAMP" })
+    @Column({ 
+        name: "date_present",
+        type: "timestamp",
+        default: () => "CURRENT_TIMESTAMP" 
+    })
     datePresent!: Date;
 
 }

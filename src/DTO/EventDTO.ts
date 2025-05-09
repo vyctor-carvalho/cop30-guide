@@ -1,7 +1,7 @@
 import { Type } from "class-transformer";
 import { IsNotEmpty, IsOptional, IsUUID, ValidateNested } from "class-validator";
 
-import { LocationDTO } from "../DTO/LocationDTO"
+import { LocationDTO } from "./wrappersDTO/LocationDTO"
 
 export class EventDTO {
 

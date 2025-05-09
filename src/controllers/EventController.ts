@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { validate as validateUUID } from "uuid";
 import { plainToInstance } from "class-transformer";
 
 import { EventService } from "../service/EventService";
@@ -31,9 +32,7 @@ export class EventController {
 
     async getEvents(req: Request, res: Response): Promise<Response> {
         const events = await this.eventService.findAllEvents();
-
-        console.log(events)
-
+        
         if (events.length == 0) {
             return res.status(200).json({
                 mensage: "Events is empty"
@@ -46,6 +45,12 @@ export class EventController {
     async getEventById(req: Request, res: Response): Promise<Response> {
         
         const id = req.params.id;
+
+        if (!validateUUID(id)) {
+            return res.status(400).json({
+                message: "Invalid UUID format"
+            })
+        }
 
         const event = await this.eventService.findEventById(id);
 
@@ -63,6 +68,12 @@ export class EventController {
 
         try {
             const id = req.params.id;
+
+            if (!validateUUID(id)) {
+                return res.status(400).json({
+                    message: "Invalid UUID format"
+                })
+            }
 
             const eventDTO = plainToInstance(EventDTO, req.body);
 
@@ -86,6 +97,12 @@ export class EventController {
         
         try {
             const id = req.params.id;
+
+            if (!validateUUID(id)) {
+                return res.status(400).json({
+                    message: "Invalid UUID format"
+                })
+            }
 
             await this.eventService.deleteEvent(id)
 

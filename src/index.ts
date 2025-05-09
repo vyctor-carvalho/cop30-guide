@@ -1,13 +1,21 @@
 import 'reflect-metadata';
+import dotenv from 'dotenv';
 
 import app from "./server";
+import { SYSTEM_API_PORT } from "./confg/ExpoEnv"
 import { userRouter } from "./rotes/UserRotes";
 import { eventRoutes } from "./rotes/EventRoutes";
 import { authRotes } from "./rotes/AuthRoutes";
 import { presenceRouter } from "./rotes/PresenceRoutes"
 import { errorsHandler } from './errors/ErrorTratament';
 
-const port = 3000
+const port = SYSTEM_API_PORT;
+
+app.listen(port, () => {
+    console.log(`Server rodadndo na porta ${port}, acesso http://localhost:${port}/`);
+});
+
+dotenv.config();
 
 app.get("/", (req, res) => {
     res.send("Home page");
@@ -23,8 +31,5 @@ app.use("/login", authRotes);
 
 app.use(errorsHandler);
 
-app.listen(port, () => {
-    console.log(`Server rodadndo na porta ${port}, acesso http://localhost:3000/`);
-});
 
 

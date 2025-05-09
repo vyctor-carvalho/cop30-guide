@@ -14,10 +14,10 @@ presenceRouter.post("/", VerifyToken, CheckRole("admin", "angel"), async (req: A
 presenceRouter.get("/", VerifyToken, CheckRole("admin"), async (req: AuthenticatedRequest, res: Response) => {
     presenceController.getPresences(req, res);
 });
-presenceRouter.get("/:id", VerifyToken, CheckRole("admin"), async (req: AuthenticatedRequest, res: Response) => {
-    presenceController.getPresenceById(req, res);
+presenceRouter.get("/FKs", VerifyToken, CheckRole("admin"), async (req: AuthenticatedRequest, res: Response) => {
+    presenceController.getPresenceByFKs(req, res);
 });
-presenceRouter.get("event/:id", VerifyToken, CheckRole("admin", "angel", "visitor"), async (req: AuthenticatedRequest, res:Response) => {
+presenceRouter.get("/event/:id", VerifyToken, CheckRole("admin", "angel", "visitor"), async (req: AuthenticatedRequest, res:Response) => {
     presenceController.getPresenceByEvent(req, res);
 })
 presenceRouter.put("/:id", VerifyToken, CheckRole("admin", "angel"), async (req: AuthenticatedRequest, res: Response) => {
