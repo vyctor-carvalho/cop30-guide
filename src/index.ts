@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import dotenv from 'dotenv';
+import cors from "cors"
 
 import app from "./server";
 import { SYSTEM_API_PORT } from "./confg/ExpoEnv"
@@ -14,6 +15,8 @@ const port = SYSTEM_API_PORT;
 app.listen(port, () => {
     console.log(`Server rodadndo na porta ${port}, acesso http://localhost:${port}/`);
 });
+
+app.use(cors());
 
 dotenv.config();
 

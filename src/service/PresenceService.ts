@@ -135,6 +135,7 @@ export class PresenceService {
         }
 
         presence.present = presenceDTO.present;
+        presence.datePresent = new Date();
 
         return presence;
     }
