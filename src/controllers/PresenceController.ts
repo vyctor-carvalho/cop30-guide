@@ -67,7 +67,7 @@ export class PresenceController {
 
         const presence = await this.presenceService.findPresenceByEvent(event_id);
 
-        if (presence == null) {
+        if (!presence) {
             return res.status(404).json({
                 message: `Event whith id ${event_id} not found`
             })

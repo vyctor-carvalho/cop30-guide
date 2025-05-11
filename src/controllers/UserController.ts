@@ -66,38 +66,48 @@ export class UserController {
     }
 
     async getVisitorByAngel(req: Request, res: Response) {
-
         const angelId = req.params.id;
-
+    
         if (!validateUUID(angelId)) {
             return res.status(400).json({
                 message: "Invalid UUID format from angelId"
-            })
+            });
         }
-
+    
         const angel = await this.userService.findUserById(angelId);
-
+    
         if (!angel) {
             return res.status(404).json({
-                message: `Angel whith id ${angelId} not found`
-            })
+                message: `Angel with id ${angelId} not found`
+            });
+        }
+    
+        if (angel.role != "angel" && angel.role != "admin") {
+            return res.status(404).json({
+                message: `Is not a angel`
+            });
         }
 
         const visitors = await this.userService.findVisitorByAngel(angelId);
-
-        if (!visitors) {
+    
+        if (!visitors || visitors.length === 0) {
             return res.status(404).json({
                 message: `Angel without visitors`
-            })
+            });
         }
-
-        return res.status(200).json(visitors);
-
+    
+        return res.status(200).json({
+            angel: angel.name,
+            visitors: visitors.map(v => v.name)
+        });
     }
+    
 
     async assignVisitor(req: Request, res: Response): Promise<Response> {
 
         const { angelId, visitorId } = req.body;
+
+        console.log("Chegou aqui!")
 
         if (!validateUUID(angelId)) {
             return res.status(400).json({
@@ -143,7 +153,7 @@ export class UserController {
     
             const user = await this.userService.putUser(id, userDTO);
     
-            if (user == null) {
+            if (!user) {
                 return res.status(404).json({
                     message: `User whith id ${id} not found`
                 })

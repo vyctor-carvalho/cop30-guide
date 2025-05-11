@@ -11,6 +11,9 @@ const userController = new UserController();
 userRouter.post("/", async (req: AuthenticatedRequest, res: Response) => {
     userController.createUser(req, res)
 });
+userRouter.post("/assign", VerifyToken, CheckRole("admin", "angel"), async (req: AuthenticatedRequest, res: Response) => {
+    userController.assignVisitor(req, res)
+});
 userRouter.get("/", VerifyToken, CheckRole("admin"), async (req: AuthenticatedRequest, res: Response) => {
     userController.getUsers(req, res)
 });
@@ -25,7 +28,4 @@ userRouter.put("/:id", VerifyToken, CheckRole("admin", "angel", "visitor"), asyn
 });
 userRouter.delete("/:id", VerifyToken, CheckRole("admin"), async (req: AuthenticatedRequest, res: Response) => {
     userController.deleteUser(req, res)
-});
-userRouter.put("/assign", VerifyToken, CheckRole("admin", "angel"), async (req: AuthenticatedRequest, res: Response) => {
-    userController.assignVisitor(req, res)
 });

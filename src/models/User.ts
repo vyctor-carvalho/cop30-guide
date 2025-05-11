@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from "typeorm"
 import { IsNotEmpty } from "class-validator"
 import { UserLoginData } from "./wrappers/UserLoginData"
 import { Presence } from "./Presence";
@@ -27,11 +27,13 @@ export class User {
     @OneToMany(() => Presence, presence => presence.visitor)
     presences?: Presence[];
 
-    @OneToMany(() => User, user => user.visitors, { nullable: true })
+    @ManyToOne(() => User, (angel) => angel.visitors, { nullable: true })
+    @JoinColumn({ name: "angelId" })
     angel?: User;
 
-    @OneToMany(() => User, user => user.angel)
+    @OneToMany(() => User, (visitor) => visitor.angel)
     visitors?: User[];
+
 
     public password() {
         return this.userLoginData.password;
