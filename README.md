@@ -140,6 +140,19 @@ VALUES (
   }
   ```
 
+* **PUT** `/users/assign` — Associa um visitor a um angel
+
+  ```json
+  {
+    "visitorId": "visitor-uuid-aqui",
+    "angelId": "angel-uuid-aqui"
+  }
+  ```
+
+> ⚠️ A associação só será feita se o angel ainda não estiver com 3 visitantes atribuídos.
+
+* **GET** `/users/visitors/:id` — Lista os visitors atribuídos a um angel
+
 ### Eventos
 
 * **GET** `/events` — Listar eventos (por função)
@@ -176,15 +189,17 @@ VALUES (
 
 ## Endpoints Disponíveis
 
-| Método | Rota                  | Descrição                          | Acesso        |
-| ------ | --------------------- | ---------------------------------- | ------------- |
-| GET    | `/`                   | Página inicial                     | Público       |
-| POST   | `/login`              | Autenticação de usuário            | Público       |
-| POST   | `/users`              | Criação de novo usuário            | Público       |
-| GET    | `/events`             | Listar eventos (por função)        | Autenticado   |
-| POST   | `/events`             | Criar novo evento (admin ou angel) | Admin/Angel   |
-| POST   | `/presence`           | Registrar presença em evento       | Angel/Visitor |
-| GET    | `/presence/event/:id` | Lista as presenças de um evento    | Autenticado   |
+| Método | Rota                  | Descrição                               | Acesso        |
+| ------ | --------------------- | --------------------------------------- | ------------- |
+| GET    | `/`                   | Página inicial                          | Público       |
+| POST   | `/login`              | Autenticação de usuário                 | Público       |
+| POST   | `/users`              | Criação de novo usuário                 | Público       |
+| GET    | `/events`             | Listar eventos (por função)             | Autenticado   |
+| POST   | `/events`             | Criar novo evento (admin ou angel)      | Admin/Angel   |
+| POST   | `/presence`           | Registrar presença em evento            | Angel/Visitor |
+| GET    | `/presence/event/:id` | Lista as presenças de um evento         | Autenticado   |
+| PUT    | `/users/assign`       | Atribui um visitor a um angel           | Admin/Angel   |
+| GET    | `/users/visitors/:id` | Lista os visitors atribuídos a um angel | Admin/Angel   |
 
 ---
 
