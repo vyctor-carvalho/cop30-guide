@@ -21,7 +21,7 @@ export class PresenceService {
         if (errors.length > 0) {
             throw { 
                 status: 400,
-                mensage: `Invalid json` 
+                message: `Invalid json` 
             }
         }
 
@@ -32,14 +32,14 @@ export class PresenceService {
         if (!user) {
             throw { 
                 status: 404,
-                mensage: `User whith id ${presenceDTO.visitorId} not found` 
+                message: `User whith id ${presenceDTO.visitorId} not found` 
             }
         };
 
         if (!event) {
             throw { 
                 status: 404,
-                mensage: `Event whith id ${presenceDTO.eventId} not found`
+                message: `Event whith id ${presenceDTO.eventId} not found`
             }
         }
 
@@ -79,7 +79,7 @@ export class PresenceService {
         if (!event) {
             throw { 
                 status: 404,
-                mensage: `Event whith id ${event_id} not found`
+                message: `Event whith id ${event_id} not found`
             }
         };
 
@@ -97,7 +97,7 @@ export class PresenceService {
         if (error.length > 0) {
             throw { 
                 status: 400,
-                mensage: `Invalid json` 
+                message: `Invalid json` 
             }
         }
 
@@ -106,7 +106,7 @@ export class PresenceService {
         if (!user) {
             throw { 
                 status: 404,
-                mensage: `User whith id ${presenceDTO.visitorId} not found`
+                message: `User whith id ${presenceDTO.visitorId} not found`
             }
         };
 
@@ -115,7 +115,7 @@ export class PresenceService {
         if (!event) {
             throw { 
                 status: 404,
-                mensage: `Event whith id ${presenceDTO.eventId} not found`
+                message: `Event whith id ${presenceDTO.eventId} not found`
             }
         };
 
@@ -130,7 +130,7 @@ export class PresenceService {
         if (!presence) {
             throw { 
                 status: 404,
-                mensage: `Presence not found or not exites`
+                message: `Presence not found or not exites`
             }
         }
 
@@ -150,7 +150,7 @@ export class PresenceService {
         if (!presence) {
             throw { 
                 status: 404,
-                mensage: `Presence not found ou not existe`
+                message: `Presence not found ou not existe`
             }
         };
 

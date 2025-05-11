@@ -7,4 +7,4 @@ const authController = new AuthController();
 
 authRotes.post("/", async (req: Request, res: Response) => {
     authController.login(req, res)
-})
+});

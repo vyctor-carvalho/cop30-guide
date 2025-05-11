@@ -69,7 +69,7 @@ export class PresenceController {
 
         if (presence == null) {
             return res.status(404).json({
-                mensage: `Event whith id ${event_id} not found`
+                message: `Event whith id ${event_id} not found`
             })
         }
 
@@ -108,7 +108,7 @@ export class PresenceController {
             await this.presenceService.deletePresence(presenceFKs.userId, presenceFKs.eventId);
 
             return res.status(200).json({ 
-                message: "Presence deleted" 
+                message: "Presence deleted"
             });
 
         } catch (err: any) {

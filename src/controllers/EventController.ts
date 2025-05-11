@@ -17,13 +17,13 @@ export class EventController {
             const event = await this.eventService.createEvent(eventDTO);
 
             return res.status(201).json({
-                mensage: "Event created",
+                message: "Event created",
                 data: event
             })
 
         } catch (errors: any) {
             return res.status(errors.status || 500).json({
-                mensage: errors.mensage,
+                message: errors.message,
                 error: errors.error
             })
         }
@@ -35,7 +35,7 @@ export class EventController {
         
         if (events.length == 0) {
             return res.status(200).json({
-                mensage: "Events is empty"
+                message: "Events is empty"
             })
         }
 
@@ -56,7 +56,7 @@ export class EventController {
 
         if (!event) {
             return res.status(404).json({
-                mensage: `Event whith id ${id} not found`
+                message: `Event whith id ${id} not found`
             })
         }
 
@@ -80,13 +80,13 @@ export class EventController {
             const event = await this.eventService.putEvent(id, eventDTO);
 
             return res.status(200).json({
-                mensage: "Event updated",
+                message: "Event updated",
                 data: eventDTO
             })
 
         } catch (errors: any) {
             return res.status(errors.status || 500).json({
-                mensage: errors.mensage,
+                message: errors.message,
                 error: errors.error
             })
         }
@@ -107,12 +107,12 @@ export class EventController {
             await this.eventService.deleteEvent(id)
 
             return res.status(200).json({
-                mensage: "Event deleted"
+                message: "Event deleted"
             })
 
         } catch (errors: any) {
             return res.status(errors.status || 500).json({
-                mensage: errors.mensage,
+                message: errors.message,
                 error: errors.error
             })
         }

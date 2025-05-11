@@ -19,7 +19,7 @@ export class EventService {
         if (error.length > 0 || nastedErrors.length > 0) {
             throw { 
                 status: 400,
-                mensage: "Invali json"
+                message: "Invali json"
             }
         }
         
@@ -63,7 +63,7 @@ export class EventService {
         if (error.length > 0 || nastedErrors.length > 0) {
             throw { 
                 status: 400,
-                mensage: "Invali json"
+                message: "Invali json"
             }
         }
 
@@ -72,7 +72,7 @@ export class EventService {
         if (!event) {
             throw { 
                 status: 404,
-                mensage: `Event whith id ${id} not found`
+                message: `Event whith id ${id} not found`
             }
         }
 
@@ -81,7 +81,7 @@ export class EventService {
         if (angel == null) {
             throw { 
                 status: 404,
-                mensage: `User whith id ${eventDTO.idAngel} not found`
+                message: `User whith id ${eventDTO.idAngel} not found`
             }
         }
 
@@ -103,7 +103,7 @@ export class EventService {
         if (!event) {
             throw { 
                 status: 404,
-                mensage: `Event whith id ${id} not found`
+                message: `Event whith id ${id} not found`
             }
         };
 

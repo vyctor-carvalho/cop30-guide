@@ -20,7 +20,7 @@ export class UserService {
         if (errors.length > 0 || nestedErrors.length > 0) {
             throw { 
                 status: 400,
-                mensage: "Invali json"
+                message: "Invali json"
             }
         }
 
@@ -49,13 +49,21 @@ export class UserService {
     }
 
     async findByEmail(email: string): Promise<User | null> {
-
         return await this.userRepository.findOneBy({
             userLoginData: {
                 email: email
             }
         })
+    }
 
+    async findVisitorByAngel(angelId: string): Promise<User[] | null> {
+        return await this.userRepository.find({
+            where: { 
+                angel: { id: angelId },
+                role: "visitor" 
+            },
+            relations: ["angel"]
+        })
     }
 
     async putUser(id: string, userDTO: UserDTO): Promise<User | { errors: any[] } | null > {
@@ -66,7 +74,7 @@ export class UserService {
         if (error.length > 0 || nestedErrors.length > 0) {
             throw { 
                 status: 400,
-                mensage: "Invali json"
+                message: "Invali json"
             }
         }
 
@@ -75,7 +83,7 @@ export class UserService {
         if (!user) {
             throw { 
                 status: 404,
-                mensage: `User whith id ${id} not found` 
+                message: `User whith id ${id} not found` 
             }
         };
 
@@ -95,11 +103,51 @@ export class UserService {
         if (user == null) {
             throw { 
                 status: 404,
-                mensage: `User whith id ${id} not found` 
+                message: `User whith id ${id} not found` 
             }
         };
 
         await this.userRepository.delete(id)
+
+    }
+
+    async assignVisitorToAngel(angelId: string, visitorId: string): Promise<User | { errors: any[] }> {
+        
+        const angel = await this.userRepository.findOneBy({ id: angelId });
+
+        if (!angel || angel.role !== "angel") {
+            throw {
+                status: 404,
+                message: "Angel not found or invalid role"
+            }
+        }
+
+        const visitor = await this.userRepository.findOneBy({ id: visitorId });
+
+        if (!visitor || visitor.role !== "visitor") {
+            throw {
+                status: 404,
+                message: "Visitor not found or invalid role"
+            }
+        }
+
+        const visitorCount = await this.userRepository.count({
+            where: {
+                angel: { id: angelId },
+                role: "visitor"
+            }
+        })
+
+        if (visitorCount >= 3) {
+            throw {
+                status: 400,
+                message: "Angel already had 3 visitors"
+            }
+        }
+
+        visitor.angel = angel;
+
+        return await this.userRepository.save(visitor);
 
     }
 

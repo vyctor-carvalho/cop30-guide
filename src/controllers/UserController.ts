@@ -17,13 +17,13 @@ export class UserController {
             const newUser = await this.userService.createUser(userDTO);
             
             return res.status(201).json({
-                mensage: "User created",
+                message: "User created",
                 data: newUser
             })
         
         } catch ( errors: any ) {
             return res.status(errors.status || 500).json({
-                mensage: errors.mensage,
+                message: errors.message,
                 error: errors.error
             })
         }
@@ -36,7 +36,7 @@ export class UserController {
 
         if (users.length == 0) {
             return res.status(200).json({
-                mensage: "Users is empty"
+                message: "Users is empty"
             })
         }
 
@@ -57,12 +57,75 @@ export class UserController {
 
         if (user == null) {
             return res.status(404).json({
-                mensage: `User whith id ${id} not found`
+                message: `User whith id ${id} not found`
             })
         }
 
         return res.status(200).json(user);
         
+    }
+
+    async getVisitorByAngel(req: Request, res: Response) {
+
+        const angelId = req.params.id;
+
+        if (!validateUUID(angelId)) {
+            return res.status(400).json({
+                message: "Invalid UUID format from angelId"
+            })
+        }
+
+        const angel = await this.userService.findUserById(angelId);
+
+        if (!angel) {
+            return res.status(404).json({
+                message: `Angel whith id ${angelId} not found`
+            })
+        }
+
+        const visitors = await this.userService.findVisitorByAngel(angelId);
+
+        if (!visitors) {
+            return res.status(404).json({
+                message: `Angel without visitors`
+            })
+        }
+
+        return res.status(200).json(visitors);
+
+    }
+
+    async assignVisitor(req: Request, res: Response): Promise<Response> {
+
+        const { angelId, visitorId } = req.body;
+
+        if (!validateUUID(angelId)) {
+            return res.status(400).json({
+                message: "Invalid UUID format from angelId"
+            })
+        }
+
+        if (!validateUUID(visitorId)) {
+            res.status(400).json({
+                message: "Invalid UUID format from visitorId"
+            })
+        }
+
+        try {
+            const updateVisitor = await this.userService.assignVisitorToAngel(angelId, visitorId);
+
+            return res.status(200).json({
+                message: "Visitor assigned",
+                data: updateVisitor
+            })
+
+        } catch (errors: any) {
+            return res.status(errors.status || 500).json({
+                message: errors.message,
+                error: errors.error
+            })
+        }
+
     }
 
     async putUser(req: Request, res: Response): Promise<Response> {
@@ -82,18 +145,18 @@ export class UserController {
     
             if (user == null) {
                 return res.status(404).json({
-                    mensage: `User whith id ${id} not found`
+                    message: `User whith id ${id} not found`
                 })
             }
     
             return res.status(200).json({
-                mensage: "User updated",
+                message: "User updated",
                 data: userDTO
             })
             
         } catch ( errors: any ) {
             return res.status(errors.status || 500).json({
-                mensage: errors.mensage,
+                message: errors.message,
                 error: errors.error
             })
         }
@@ -114,12 +177,12 @@ export class UserController {
             await this.userService.deleteUser(id)
     
             return res.status(200).json({
-                mensage: "User deleted"
+                message: "User deleted"
             })
 
         } catch ( errors: any ) {
             return res.status(errors.status || 500).json({
-                mensage: errors.mensage,
+                message: errors.message,
                 error: errors.error
             })
         }

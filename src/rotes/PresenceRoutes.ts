@@ -19,7 +19,7 @@ presenceRouter.get("/FKs", VerifyToken, CheckRole("admin"), async (req: Authenti
 });
 presenceRouter.get("/event/:id", VerifyToken, CheckRole("admin", "angel", "visitor"), async (req: AuthenticatedRequest, res:Response) => {
     presenceController.getPresenceByEvent(req, res);
-})
+});
 presenceRouter.put("/:id", VerifyToken, CheckRole("admin", "angel"), async (req: AuthenticatedRequest, res: Response) => {
     presenceController.putPresence(req, res);
 });

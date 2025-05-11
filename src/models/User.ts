@@ -27,6 +27,12 @@ export class User {
     @OneToMany(() => Presence, presence => presence.visitor)
     presences?: Presence[];
 
+    @OneToMany(() => User, user => user.visitors, { nullable: true })
+    angel?: User;
+
+    @OneToMany(() => User, user => user.angel)
+    visitors?: User[];
+
     public password() {
         return this.userLoginData.password;
     }

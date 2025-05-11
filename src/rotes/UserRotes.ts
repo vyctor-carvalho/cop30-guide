@@ -16,10 +16,16 @@ userRouter.get("/", VerifyToken, CheckRole("admin"), async (req: AuthenticatedRe
 });
 userRouter.get("/:id", VerifyToken, CheckRole("admin"), async (req: AuthenticatedRequest, res: Response) => {
     userController.getUserById(req, res)
+});
+userRouter.get("/visitors/:id", VerifyToken, CheckRole("admin", "angel"), async (req: AuthenticatedRequest, res: Response) => {
+    userController.getVisitorByAngel(req, res)
 })
 userRouter.put("/:id", VerifyToken, CheckRole("admin", "angel", "visitor"), async (req: AuthenticatedRequest, res: Response) => {
     userController.putUser(req, res)
-})
+});
 userRouter.delete("/:id", VerifyToken, CheckRole("admin"), async (req: AuthenticatedRequest, res: Response) => {
     userController.deleteUser(req, res)
-})
+});
+userRouter.put("/assign", VerifyToken, CheckRole("admin", "angel"), async (req: AuthenticatedRequest, res: Response) => {
+    userController.assignVisitor(req, res)
+});
