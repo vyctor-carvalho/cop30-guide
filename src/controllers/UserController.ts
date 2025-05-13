@@ -107,8 +107,6 @@ export class UserController {
 
         const { angelId, visitorId } = req.body;
 
-        console.log("Chegou aqui!")
-
         if (!validateUUID(angelId)) {
             return res.status(400).json({
                 message: "Invalid UUID format from angelId"
