@@ -137,7 +137,7 @@ export class PresenceService {
         presence.present = presenceDTO.present;
         presence.datePresent = new Date();
 
-        return presence;
+        return await this.presenceRepository.save(presence);
     }
 
     async deletePresence(userId: string, eventId: string) {
@@ -145,7 +145,9 @@ export class PresenceService {
         const presence = await this.presenceRepository.findOneBy({ 
             userId,
             eventId
-         });
+        });
+
+        console.log(presence)
 
         if (!presence) {
             throw { 
@@ -154,8 +156,7 @@ export class PresenceService {
             }
         };
 
-        await this.presenceRepository.delete({ userId, eventId });
-
+        await this.presenceRepository.delete(presence);
     }
 
 }

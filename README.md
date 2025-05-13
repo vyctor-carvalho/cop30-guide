@@ -183,6 +183,16 @@ VALUES (
   }
   ```
 
+* **PUT** `/presence` — Registrar presença
+
+  ```json
+  {
+    "visitorId": "b294e604-4e6e-463f-a6a1-f4b93bd5b0ab",
+    "eventId": "d264f307-492d-4fc8-8419-f97156922a26",
+    "present": false
+  }
+  ```
+
 * **GET** `/presence/event/:id` — Lista as presenças de um evento
 
 ---

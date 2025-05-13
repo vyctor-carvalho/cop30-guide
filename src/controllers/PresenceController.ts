@@ -52,7 +52,11 @@ export class PresenceController {
             });
         }
 
-        return res.status(200).json(presence);
+        return res.status(200).json({
+            eventTitle: presence.event.title,
+            visitorName: presence.visitor.name,
+            presence: presence.present
+        });
     }
 
     async getPresenceByEvent(req: Request, res: Response): Promise<Response> {
@@ -74,11 +78,12 @@ export class PresenceController {
         }
 
         return res.status(200).json(
-        presence.map(p => ({
-            eventTitle: p.event.title,
-            visitorName: p.visitor.name,
-            presence: p.present
-        })));
+            presence.map(p => ({
+                eventTitle: p.event.title,
+                visitorName: p.visitor.name,
+                presence: p.present
+            }))
+        );
     }
 
     async putPresence(req: Request, res: Response): Promise<Response> {
